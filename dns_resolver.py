@@ -645,6 +645,7 @@ def main():
         conn = connect_db(debug_logger, error_logger)
         create_tables(conn)
 
+
     # Run checks for domains from a file if provided
     if args_dict["file"]:
         dns_queries = parse_dns_queries_file(args_dict["file"])
@@ -659,6 +660,18 @@ def main():
                 answers = query_dns(domain, record_type, [server_ip], debug_logger=debug_logger,
                                     error_logger=error_logger)
                 results.append({'server': server_ip, 'country': server_location, 'answer': answers})
+
+                # Hash the DNS results to detect changes
+                current_hash = hash_dns_results(results)
+
+                # Check if the hash already exists in the database (if connected)
+                if conn:  # Ensure database connection exists
+                    if not detect_changes(conn, domain, record_type, current_hash):
+                        # If no changes detected, skip the notification and proceed to the next query
+                        debug_logger.debug(f"No changes detected for {domain} ({record_type}). Skipping notifications.")
+                        continue
+
+                # Process the results if a new hash is detected or no database is in use
                 process_results({'domain': domain, 'record_type': record_type}, server, answers, conn, dns_logger,
                                 debug_logger, error_logger)
 
@@ -674,8 +687,16 @@ def main():
                     print_pretty_table(results)
                 else:
                     print("Output suppressed based on VISUALIZE_OUTPUT setting.")
-            notify_discord_embedded(f"DNS query results for {domain}", formatted_results)
-            notify_email(f"DNS query results for {domain}: {formatted_results}", debug_logger, error_logger)
+
+            # Only notify if a new hash was detected and stored
+            if conn:  # If database is used, notify only if changes are detected
+                if detect_changes(conn, domain, record_type, current_hash):
+                    notify_discord_embedded(f"DNS query results for {domain}", formatted_results)
+                    notify_email(f"DNS query results for {domain}: {formatted_results}", debug_logger, error_logger)
+            else:
+                # Notify without change detection if no database is in use
+                notify_discord_embedded(f"DNS query results for {domain}", formatted_results)
+                notify_email(f"DNS query results for {domain}: {formatted_results}", debug_logger, error_logger)
 
         sys.exit(0)  # Exit after processing all queries from the file
 
