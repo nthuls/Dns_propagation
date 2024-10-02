@@ -1,0 +1,12 @@
+argparse==1.4.0
+json5==0.9.6
+pyyaml==6.0
+psycopg2==2.9.3
+mysql-connector-python==8.0.28
+hashlib==20081119
+logging==0.5.1.2
+smtplib==0.3
+requests==2.27.1
+prettytable==3.2.0
+dnspython==2.2.1
+python-dotenv==0.20.0
