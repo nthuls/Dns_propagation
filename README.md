@@ -132,27 +132,6 @@ Logs are stored in `/var/log/domain/` by default. Ensure the script has the nece
 - **dns_results.log**: Logs DNS query results.
 - **error.log**: Logs errors and issues encountered during execution.
 
-## Example `.env` Configuration
-
-```env
-USE_DB=true
-DB_TYPE=postgresql
-DB_NAME=dns_results
-DB_USER=your_db_user
-DB_PASSWORD=your_db_password
-DB_HOST=localhost
-DB_PORT=5432
-ENABLE_DISCORD_NOTIFICATIONS=true
-DISCORD_WEBHOOK=https://discordapp.com/api/webhooks/YOUR_WEBHOOK_URL
-ENABLE_EMAIL_NOTIFICATIONS=true
-SMTP_SERVER=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USER=youremail@gmail.com
-SMTP_PASSWORD=yourpassword
-ALERT_EMAILS=admin@example.com,security@example.com
-VISUALIZE_OUTPUT=true
-```
-
 To set up your script as a service that runs approximately every 4 hours, follow these steps:
 
 ### 1. **Create the Systemd Service File**
