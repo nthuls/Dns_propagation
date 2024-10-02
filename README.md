@@ -173,7 +173,7 @@ To set up your script as a service that runs approximately every 4 hours, follow
    [Service]
    User=User  # Replace with your username if different
    WorkingDirectory=/home/user/Dns_propagation/
-   ExecStart=/usr/bin/python3 /home/user/Dns_propagation/dns_resolver.py --file /home/nthuls/Dns_propagation/dns_queries.txt
+   ExecStart=/usr/bin/python3 /home/user/Dns_propagation/dns_resolver.py --file /home/user/Dns_propagation/dns_queries.txt
    Restart=on-failure
    EnvironmentFile=/home/user/Dns_propagation/.env
 
