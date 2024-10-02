@@ -1,0 +1,3 @@
+MX gmail.com
+CNAME www.youtube.com
+A 8.8.8.8
