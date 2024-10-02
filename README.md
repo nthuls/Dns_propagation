@@ -20,7 +20,7 @@ The DNS Propagation Checker is a tool designed to monitor DNS changes across mul
 1. Clone the repository:
 
     ```bash
-    git clone 
+    git clone https://github.com/nthuls/Dns_propagation.git
     cd dns-propagation-checker
     ```
 
